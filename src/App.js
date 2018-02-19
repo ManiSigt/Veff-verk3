@@ -2,9 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Login from './components/Login/Login';
 import PropTypes from 'prop-types';
-//import '../styles/site.less';
+import Image from './components/Image/Image';
+import ChatWindow from "./components/ChatWindow/ChatWindow";
 import socketClient from 'socket.io-client';
-//import ChatWindow from "./components/ChatWindow/ChatWindow";
+//import '../styles/site.less';
+import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 /* eslint-disable no-console */
 class App extends React.Component {
     componentDidCatch(error, info) {
@@ -18,7 +21,11 @@ class App extends React.Component {
     render() {
         return (
             <div className="container">
-                <Login />
+                <Switch>
+                    <Route exact path="/" component={Login} />
+                    <Route path="/users" component={Image} />
+                    <Route path="/chat" component={ChatWindow} />
+                </Switch>
             </div>
         );
     }
@@ -28,5 +35,5 @@ App.childContextTypes = {
     socket: PropTypes.object.isRequired
 };
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<Router><App /></Router>, document.getElementById('app'));
 

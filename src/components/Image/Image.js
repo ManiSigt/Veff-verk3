@@ -1,8 +1,12 @@
 import React from 'react';
 
 
-const Image = () => {
-    return 'hallo'
+class Image extends React.Component {
+    render(){
+        return 'hallo'
+
+    }
+
 
 };
 

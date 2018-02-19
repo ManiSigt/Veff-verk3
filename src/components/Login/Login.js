@@ -9,8 +9,18 @@ class Login extends React.Component {
         socket.emit('adduser', this.state.username, function(available) {
             if (available) {
                 console.log('name not taken!');
+
+            }
+            else{
+                console.log('Name taken!');
             }
         }.bind(this));
+    }
+    constructor(props){
+        super(props);
+        this.state={
+            username:''
+        }
     }
 
     render(){

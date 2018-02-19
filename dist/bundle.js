@@ -4628,9 +4628,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Image_Image__ = __webpack_require__(122);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ChatWindow_ChatWindow__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_socket_io_client__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_socket_io_client__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_router_dom__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_ListRoom_ListRoom__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_Swag_Swag__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_socket_io_client__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_router_dom__ = __webpack_require__(94);
+
+
 
 
 
@@ -4648,7 +4652,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     }
     getChildContext() {
         return {
-            socket: __WEBPACK_IMPORTED_MODULE_6_socket_io_client___default()('http://localhost:8080')
+            socket: __WEBPACK_IMPORTED_MODULE_8_socket_io_client___default()('http://localhost:8080')
         };
     }
     render() {
@@ -4656,11 +4660,13 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             'div',
             { className: 'container' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Switch */],
+                __WEBPACK_IMPORTED_MODULE_9_react_router_dom__["c" /* Switch */],
                 null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["b" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_2__components_Login_Login__["a" /* default */] }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["b" /* Route */], { path: '/users', component: __WEBPACK_IMPORTED_MODULE_4__components_Image_Image__["a" /* default */] }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["b" /* Route */], { path: '/chat', component: __WEBPACK_IMPORTED_MODULE_5__components_ChatWindow_ChatWindow__["a" /* default */] })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_2__components_Login_Login__["a" /* default */] }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { path: '/users', component: __WEBPACK_IMPORTED_MODULE_4__components_Image_Image__["a" /* default */] }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { path: '/chat', component: __WEBPACK_IMPORTED_MODULE_5__components_ChatWindow_ChatWindow__["a" /* default */] }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { path: '/poop', component: __WEBPACK_IMPORTED_MODULE_6__components_ListRoom_ListRoom__["a" /* default */] }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { path: '/swag', component: __WEBPACK_IMPORTED_MODULE_7__components_Swag_Swag__["a" /* default */] })
             )
         );
     }
@@ -4671,7 +4677,7 @@ App.childContextTypes = {
 };
 
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["a" /* BrowserRouter */],
+    __WEBPACK_IMPORTED_MODULE_9_react_router_dom__["a" /* BrowserRouter */],
     null,
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(App, null)
 ), document.getElementById('app'));
@@ -21985,8 +21991,16 @@ class Login extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         socket.emit('adduser', this.state.username, function (available) {
             if (available) {
                 console.log('name not taken!');
+            } else {
+                console.log('Name taken!');
             }
         }.bind(this));
+    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: ''
+        };
     }
 
     render() {
@@ -30357,13 +30371,62 @@ ChatWindow.contextTypes = {
 
 
 class Image extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+    getlist() {
+        const { socket } = this.context;
+        socket.on('users', function () {
+
+            let messages = Object.assign([], this.state.messages);
+            messages.push(`${new Date().toLocaleTimeString()} - ${msg}`);
+            this.setState({ messages });
+        });
+    }
+
     render() {
-        return 'hallo';
+        return 'helo';
     }
 
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Image);
+
+/***/ }),
+/* 123 */,
+/* 124 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class Swag extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+    render() {
+        return 'Yolo';
+    }
+
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Swag);
+
+/***/ }),
+/* 125 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class Poop extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+    render() {
+        return 'helo';
+    }
+
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Poop);
 
 /***/ })
 /******/ ]);

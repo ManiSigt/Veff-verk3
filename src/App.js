@@ -1,16 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import Image from './components/Image/Image';
 import Login from './components/Login/Login';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 //import '../styles/site.less';
 import socketClient from 'socket.io-client';
-import ChatWindow from './components/ChatWindow/ChatWindow';
-
+//import ChatWindow from "./components/ChatWindow/ChatWindow";
+/* eslint-disable no-console */
 class App extends React.Component {
-  /*  componentDidCatch(error, info) {
+    componentDidCatch(error, info) {
         console.log(error, info);
-    }*/
+    }
     getChildContext() {
         return {
             socket: socketClient('http://localhost:8080')

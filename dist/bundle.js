@@ -4628,12 +4628,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Image_Image__ = __webpack_require__(122);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ChatWindow_ChatWindow__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ChatWindow_ChatWindow___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_ChatWindow_ChatWindow__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_ListRoom_ListRoom__ = __webpack_require__(125);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_Swag_Swag__ = __webpack_require__(124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_socket_io_client__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_socket_io_client__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_router_dom__ = __webpack_require__(94);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_socket_io_client__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_router_dom__ = __webpack_require__(94);
 
 
 
@@ -4652,7 +4651,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     }
     getChildContext() {
         return {
-            socket: __WEBPACK_IMPORTED_MODULE_8_socket_io_client___default()('http://localhost:8080')
+            socket: __WEBPACK_IMPORTED_MODULE_7_socket_io_client___default()('http://localhost:8080')
         };
     }
     render() {
@@ -4660,13 +4659,12 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             'div',
             { className: 'container' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_9_react_router_dom__["c" /* Switch */],
+                __WEBPACK_IMPORTED_MODULE_8_react_router_dom__["c" /* Switch */],
                 null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_2__components_Login_Login__["a" /* default */] }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { path: '/users', component: __WEBPACK_IMPORTED_MODULE_4__components_Image_Image__["a" /* default */] }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { path: '/chat', component: __WEBPACK_IMPORTED_MODULE_5__components_ChatWindow_ChatWindow__["a" /* default */] }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { path: '/poop', component: __WEBPACK_IMPORTED_MODULE_6__components_ListRoom_ListRoom__["a" /* default */] }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["b" /* Route */], { path: '/swag', component: __WEBPACK_IMPORTED_MODULE_7__components_Swag_Swag__["a" /* default */] })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_react_router_dom__["b" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_2__components_Login_Login__["a" /* default */] }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_react_router_dom__["b" /* Route */], { path: '/users', component: __WEBPACK_IMPORTED_MODULE_4__components_Image_Image__["a" /* default */] }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_react_router_dom__["b" /* Route */], { path: '/chat', component: __WEBPACK_IMPORTED_MODULE_5__components_ChatWindow_ChatWindow__["default"] }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_react_router_dom__["b" /* Route */], { path: '/poop', component: __WEBPACK_IMPORTED_MODULE_6__components_ListRoom_ListRoom__["a" /* default */] })
             )
         );
     }
@@ -4677,7 +4675,7 @@ App.childContextTypes = {
 };
 
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_9_react_router_dom__["a" /* BrowserRouter */],
+    __WEBPACK_IMPORTED_MODULE_8_react_router_dom__["a" /* BrowserRouter */],
     null,
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(App, null)
 ), document.getElementById('app'));
@@ -21981,6 +21979,7 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChatWindow_ChatWindow__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChatWindow_ChatWindow___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ChatWindow_ChatWindow__);
 
 
 
@@ -21999,6 +21998,13 @@ class Login extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         socket.emit('adduser', this.state.username, available => {
             if (available) {
                 console.log('Username Available');
+                socket.emit('joinroom', { room: 'lobby' }, (joinedLobby, reason) => {
+                    if (joinedLobby) {
+                        console.log('successfully joined room');
+                    } else {
+                        console.log(reason);
+                    }
+                });
                 this.setState({ logedin: true, username: this.state.username });
             } else {
                 console.log('Name taken!');
@@ -22011,7 +22017,7 @@ class Login extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ChatWindow_ChatWindow__["a" /* default */], { username: this.state.username })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ChatWindow_ChatWindow__["default"], { username: this.state.username })
             );
         }
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -30304,73 +30310,10 @@ var withRouter = function withRouter(Component) {
 
 /***/ }),
 /* 121 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-
-
-
-class ChatWindow extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-    componentDidMount() {
-        // Register emission handler
-        const { socket } = this.context;
-        socket.on('msg', msg => {
-            // Update the message state
-            let messages = Object.assign([], this.state.messages);
-            messages.push(`${new Date().toLocaleTimeString()} - ${msg}`);
-            this.setState({ messages });
-        });
-    }
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: this.props.username,
-            msg: '',
-            messages: []
-        };
-    }
-    sendMessage() {
-        const { socket } = this.context;
-        socket.emit('msg', this.state.msg);
-        this.setState({ msg: '' });
-    }
-    render() {
-        const { messages, msg } = this.state;
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'chat-window' },
-            messages.map(m => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { key: m },
-                m
-            )),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'input-box' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-                    type: 'text',
-                    value: msg,
-                    className: 'input input-big',
-                    onInput: e => this.setState({ msg: e.target.value }) }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'button',
-                    { type: 'button', className: 'btn pull-right', onClick: () => this.sendMessage() },
-                    'Send'
-                )
-            )
-        );
-    }
-}
-
-ChatWindow.contextTypes = {
-    socket: __WEBPACK_IMPORTED_MODULE_1_prop_types__["PropTypes"].object.isRequired
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (ChatWindow);
+throw new Error("Module build failed: SyntaxError: C:/Users/hoddi/Desktop/School_local/veff2/Assignment3/Assignment3/src/components/ChatWindow/ChatWindow.js: Unexpected token (16:40)\n\n  14 |             }\n  15 | \n> 16 |             this.setState({ messages });*/\n     |                                         ^\n  17 |         });\n  18 |     }\n  19 |     constructor(props) {\n");
 
 /***/ }),
 /* 122 */
@@ -30381,64 +30324,42 @@ ChatWindow.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 
+/* eslint-disable no-console */
 class Image extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-    componentDidMount() {
+    /*componentDidMount() {
         this.context.socket.emit('rooms');
-        this.context.socket.on('roomlist', roomlist => {
+        this.context.socket.on('roomlist', (roomlist) => {
             console.log(roomlist);
             let rooms = Object.assign([], this.state.rooms);
             for (var o in roomlist) {
                 rooms.push(o);
                 console.log(rooms);
             }
-            this.setState({ rooms });
+            this.setState({rooms});
         });
     }
-    constructor(props) {
+    constructor(props){
         super(props);
         this.state = {
             rooms: []
         };
     }
-
+    */
     render() {
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            null,
-            rooms.map(m => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { onClick: this.onItemClick, className: 'roomListItem', key: m },
-                m,
-                ' '
-            ))
-        );
+        return 'test'
+        /* <div>
+             {rooms.map(m => ( <div onClick={this.onItemClick} className={'roomListItem'} key={m}>{m} </div> ))}
+         </div>*/
+        ;
     }
 
-};
+}
 
 /* harmony default export */ __webpack_exports__["a"] = (Image);
 
 /***/ }),
 /* 123 */,
-/* 124 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-
-
-class Swag extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-
-    render() {
-        return 'Yolo';
-    }
-
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Swag);
-
-/***/ }),
+/* 124 */,
 /* 125 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

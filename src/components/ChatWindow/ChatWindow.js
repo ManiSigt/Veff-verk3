@@ -10,7 +10,7 @@ class ChatWindow extends React.Component {
             console.log(msg);
             let messages = [];
             for(let i = 0; i < msg.length; i++){
-                messages.push(`${(new Date()).toLocaleTimeString('is')} - ${msg[i].nick} : ${msg[i].message}`);
+                messages.push(`${msg[i].timestamp} - ${msg[i].nick} : ${msg[i].message}`);
             }
 
             this.setState({ messages });

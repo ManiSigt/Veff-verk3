@@ -18,6 +18,7 @@ class Login extends React.Component {
         socket.emit('adduser', this.state.username, (available) => {
             if (available) {
                 console.log('Username Available');
+                this.setState( {room:'lobby'});
                 socket.emit('joinroom', {room:'lobby'}, (joinedLobby, reason) => {
                     if (joinedLobby) {
                         console.log('successfully joined room');

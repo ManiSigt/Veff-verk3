@@ -27,20 +27,26 @@ class ListRoom extends React.Component {
         const { socket } = this.context;
         socket.emit('joinroom', {room:this.state.room}, (roomCreated, reason) => {
             if (roomCreated) {
+                this.props.changeRoom(this.state.room);
+                this.context.socket.emit('rooms');
+            } else {
+                console.log(reason);
+            }
+        });
+        //this.setState({ room: '' });
+    }
+
+    handleClick(room){
+        const { socket } = this.context;
+        socket.emit('joinroom', {room:room}, (roomjoined, reason) => {
+            if (roomjoined) {
+                this.setState({room: room});
                 console.log(this.state.room);
                 this.props.changeRoom(this.state.room);
             } else {
                 console.log(reason);
             }
         });
-        //this.setState({logedin: true, username: this.state.username});
-        //this.setState({ room: 'cs.is' });
-    }
-
-    handleClick(room){
-        console.log(room);
-        this.setState({room : room});
-        this.props.changeRoom(room);
     }
 
 

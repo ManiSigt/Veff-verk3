@@ -4,7 +4,7 @@ import React from 'react';
 class Swag extends React.Component {
 
     render(){
-        return 'Yolo'
+        return 'rass pika brund'
     }
 
 

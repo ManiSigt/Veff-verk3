@@ -21980,30 +21980,40 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ChatWindow_ChatWindow__ = __webpack_require__(121);
+
 
 
 
 /* eslint-disable no-console */
 class Login extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-    setUser() {
-        const { socket } = this.context;
-        console.log("trying to login with username '" + this.state.username + "'");
-        socket.emit('adduser', this.state.username, function (available) {
-            if (available) {
-                console.log('name not taken!');
-            } else {
-                console.log('Name taken!');
-            }
-        }.bind(this));
-    }
     constructor(props) {
         super(props);
         this.state = {
+            logedin: false,
             username: ''
         };
     }
+    setUser() {
+        const { socket } = this.context;
+        socket.emit('adduser', this.state.username, available => {
+            if (available) {
+                console.log('Username Available');
+                this.setState({ logedin: true, username: this.state.username });
+            } else {
+                console.log('Name taken!');
+            }
+        });
+    }
 
     render() {
+        if (this.state.logedin) {
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'container' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ChatWindow_ChatWindow__["a" /* default */], { username: this.state.username })
+            );
+        }
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
             null,
@@ -30318,6 +30328,7 @@ class ChatWindow extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
     constructor(props) {
         super(props);
         this.state = {
+            username: this.props.username,
             msg: '',
             messages: []
         };
@@ -30371,18 +30382,36 @@ ChatWindow.contextTypes = {
 
 
 class Image extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-    getlist() {
-        const { socket } = this.context;
-        socket.on('users', function () {
-
-            let messages = Object.assign([], this.state.messages);
-            messages.push(`${new Date().toLocaleTimeString()} - ${msg}`);
-            this.setState({ messages });
+    componentDidMount() {
+        this.context.socket.emit('rooms');
+        this.context.socket.on('roomlist', roomlist => {
+            console.log(roomlist);
+            let rooms = Object.assign([], this.state.rooms);
+            for (var o in roomlist) {
+                rooms.push(o);
+                console.log(rooms);
+            }
+            this.setState({ rooms });
         });
+    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            rooms: []
+        };
     }
 
     render() {
-        return 'helo';
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            null,
+            rooms.map(m => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { onClick: this.onItemClick, className: 'roomListItem', key: m },
+                m,
+                ' '
+            ))
+        );
     }
 
 };
@@ -30421,10 +30450,10 @@ class Swag extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 class Poop extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
     render() {
-        return 'helo';
+        return 'typpirasspikabrund';
     }
 
-};
+}
 
 /* harmony default export */ __webpack_exports__["a"] = (Poop);
 

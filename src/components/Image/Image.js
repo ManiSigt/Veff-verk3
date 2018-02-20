@@ -2,19 +2,31 @@ import React from 'react';
 
 
 class Image extends React.Component {
-    getlist() {
-        const { socket } = this.context;
-        socket.on('users', function() {
-
-            let messages = Object.assign([], this.state.messages);
-            messages.push(`${(new Date()).toLocaleTimeString()} - ${msg}`);
-            this.setState({ messages });
+    componentDidMount() {
+        this.context.socket.emit('rooms');
+        this.context.socket.on('roomlist', (roomlist) => {
+            console.log(roomlist);
+            let rooms = Object.assign([], this.state.rooms);
+            for (var o in roomlist) {
+                rooms.push(o);
+                console.log(rooms);
+            }
+            this.setState({rooms});
         });
+    }
+    constructor(props){
+        super(props);
+        this.state = {
+            rooms: []
+        };
     }
 
     render(){
-        return 'helo'
-    }
+        return (
+        <div>
+            {rooms.map(m => ( <div onClick={this.onItemClick} className={'roomListItem'} key={m}>{m} </div> ))}
+        </div>
+        )}
 
 
 };

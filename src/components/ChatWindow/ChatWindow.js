@@ -30,6 +30,42 @@ class ChatWindow extends React.Component {
         console.log(this.props.roomName);
         this.setState({ msg: '' });
     }
+    kickPerson() {
+        var person = prompt("Please enter the name of the person you want to kick");
+        var curr = 'lobby';
+        var test = {user: person, room: curr};
+        const { socket } = this.context;
+        socket.emit('kick', test, (available) => {
+            if (available) {
+                console.log('Room joined');
+            }
+        });
+        alert(person + " has been Kicked!");
+    }
+    banPerson() {
+        var person = prompt("Please enter the name of the person you want to ban");
+        var curr = 'lobby';
+        var test = {user: person, room: curr};
+        const { socket } = this.context;
+        socket.emit('ban', test, (available) => {
+            if(available) {
+                console.log('Room joined');
+            }
+        })
+        alert(person + " has been banned!");
+    }
+    privateMsg () {
+        var person = prompt("Please enter the name of the person you want to message");
+        var msg = prompt("Enter your message");
+        var test = {nick:person, message:msg};
+        const { socket } = this.context;
+        socket.emit('privatemsg', test, (available) => {
+            if (available) {
+                console.log('Room joined');
+            }
+        });
+
+    }
     render() {
         const { messages, msg, room } = this.state;
         return (
@@ -43,8 +79,14 @@ class ChatWindow extends React.Component {
                         className="input input-big"
                         onInput={(e) => this.setState({ msg: e.target.value })} />
                     <button type="button" className="btn pull-right" onClick={() => this.sendMessage()}>Send</button>
+                    <button type="button" className="kick" onClick={() => this.kickPerson()}>KICK</button>
+                    <button type="button" className="ban" onClick={ () => this.banPerson()}> BAN </button>
+                    <button type="button" className="privMsg" onClick={ () => this.privateMsg()}> Send Private Message </button>
                 </div>
+
+
             </div>
+
         );
     }
 }

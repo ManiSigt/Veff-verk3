@@ -35,14 +35,16 @@ class Login extends React.Component {
 
     changeRoom(currentRoom) {
         console.log(currentRoom);
-        this.setState({currentRoom});
+        this.setState({room: currentRoom});
+
  }
     render(){
             if(this.state.logedin){
+                console.log('hérna room', this.state.room);
                 return (
                     <div className="container">
                         <ListRoom username={this.state.username} changeRoom={(currentRoom) => this.changeRoom(currentRoom)}/>
-                    <ChatWindow username={this.state.username} roomName={this.state.currentRoom}/>
+                    <ChatWindow username={this.state.username} roomName={this.state.room}/>
                 </div>)
 
             }

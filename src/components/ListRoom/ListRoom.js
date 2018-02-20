@@ -1,15 +1,15 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 
-
+/* eslint-disable no-console */
 class ListRoom extends React.Component {
     componentDidMount() {
 
         this.context.socket.emit('rooms');
         this.context.socket.on('roomlist', (roomlist) => {
             console.log(roomlist);
-            let rooms = Object.assign([], this.state.rooms);
-            for (var o in roomlist) {
+            let rooms = [];
+            for (let o in roomlist) {
                 rooms.push(o);
                 console.log(rooms);
             }
@@ -27,20 +27,28 @@ class ListRoom extends React.Component {
         const { socket } = this.context;
         socket.emit('joinroom', {room:this.state.room}, (roomCreated, reason) => {
             if (roomCreated) {
-                console.log('successfully created room');
+                console.log(this.state.room);
                 this.props.changeRoom(this.state.room);
             } else {
                 console.log(reason);
             }
         });
-        this.setState({ room: '' });
+        //this.setState({logedin: true, username: this.state.username});
+        //this.setState({ room: 'cs.is' });
     }
+
+    handleClick(room){
+        console.log(room);
+        this.setState({room : room});
+        this.props.changeRoom(room);
+    }
+
 
     render(){
         const { rooms } = this.state;
         return (
             <div>
-                {rooms.map(m => ( <div onClick={this.onItemClick} className={'roomListItem'} key={m}>{m} </div> ))}
+                {rooms.map(m => ( <div onClick={() => this.handleClick(m)}  className={'roomListItem'} key={m}>{m} </div> ))}
                 <div className="input-box">
                     <input
                         type="text"

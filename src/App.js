@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Image from './components/Image/Image';
 import ChatWindow from "./components/ChatWindow/ChatWindow";
 import ListRoom from "./components/ListRoom/ListRoom";
-import Swag from "./components/Swag/Swag";
 import socketClient from 'socket.io-client';
 //import '../styles/site.less';
 import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -28,7 +27,6 @@ class App extends React.Component {
                     <Route path="/users" component={Image} />
                     <Route path="/chat" component={ChatWindow} />
                     <Route path="/poop" component={ListRoom} />
-                    <Route path="/swag" component={Swag} />
                 </Switch>
             </div>
         );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-
+/* eslint-disable no-console */
 class Image extends React.Component {
     componentDidMount() {
         this.context.socket.emit('rooms');
@@ -23,12 +23,12 @@ class Image extends React.Component {
 
     render(){
         return (
-        <div>
+       <div>
             {rooms.map(m => ( <div onClick={this.onItemClick} className={'roomListItem'} key={m}>{m} </div> ))}
         </div>
         )}
 
 
-};
+}
 
 export default Image;

@@ -1,28 +1,32 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-
+/* eslint-disable no-console */
 class ChatWindow extends React.Component {
     componentDidMount() {
         // Register emission handler
         const { socket } = this.context;
-        socket.on('msg', (msg) => {
+        socket.on('updatechat', (room, msg) => {
             // Update the message state
-            let messages = Object.assign([], this.state.messages);
-            messages.push(`${(new Date()).toLocaleTimeString()} - ${msg}`);
+            console.log(msg);
+            let messages = [];
+            for(let i = 0; i < msg.length; i++){
+                messages.push(`${(new Date()).toLocaleTimeString('is')} - ${msg[i].nick} : ${msg[i].message}`);
+            }
+
             this.setState({ messages });
         });
     }
     constructor(props) {
         super(props);
         this.state = {
-            username: this.props.username,
+            username: '',
             msg: '',
-            messages: []
+            messages: [],
         };
     }
     sendMessage() {
         const { socket } = this.context;
-        socket.emit('msg', this.state.msg);
+        socket.emit('sendmsg', {msg:this.state.msg, roomName:this.props.currentRoom});
         this.setState({ msg: '' });
     }
     render() {
@@ -45,6 +49,10 @@ class ChatWindow extends React.Component {
 
 ChatWindow.contextTypes = {
     socket: PropTypes.object.isRequired
+};
+
+ChatWindow.defaultProps = {
+    currentRoom: 'lobby'
 };
 
 export default ChatWindow;

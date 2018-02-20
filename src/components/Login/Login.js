@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ChatWindow from "../ChatWindow/ChatWindow";
+import ListRoom from "../ListRoom/ListRoom";
 
 
 /* eslint-disable no-console */
@@ -17,6 +18,13 @@ class Login extends React.Component {
         socket.emit('adduser', this.state.username, (available) => {
             if (available) {
                 console.log('Username Available');
+                socket.emit('joinroom', {room:'lobby'}, (joinedLobby, reason) => {
+                    if (joinedLobby) {
+                        console.log('successfully joined room');
+                    } else {
+                        console.log(reason);
+                    }
+                });
                 this.setState({logedin: true, username: this.state.username});
             }
             else {
@@ -25,12 +33,16 @@ class Login extends React.Component {
         });
     }
 
-
+    changeRoom(currentRoom) {
+        console.log(currentRoom);
+        this.setState({currentRoom});
+ }
     render(){
             if(this.state.logedin){
                 return (
                     <div className="container">
-                    <ChatWindow username={this.state.username}/>
+                        <ListRoom username={this.state.username} changeRoom={(currentRoom) => this.changeRoom(currentRoom)}/>
+                    <ChatWindow username={this.state.username} roomName={this.state.currentRoom}/>
                 </div>)
 
             }
